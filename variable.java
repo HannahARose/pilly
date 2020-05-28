@@ -1,4 +1,4 @@
-public class variable extends runnable
+public class variable implements runnable
 {
     public Object value;
     public variable()

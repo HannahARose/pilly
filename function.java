@@ -1,22 +1,37 @@
-import java.util.HashMap;
 import java.util.ArrayList;
 import java.lang.Object;
-public class function extends runnable
+
+/**
+ * A class to encapsulate functions in tokens
+ */
+public class function implements runnable
 {
     private String title = "empty";
     
+    /**
+     * creates a function with the given name
+     */
     public function(String name)
     {
         title = name;
     }
     
+    /**
+     * pop an item from the specified stack
+     */
     private static Object pop(ArrayList<Object> stack)
     {
         java.lang.Object item = stack.get(stack.size()-1);
         stack.remove(stack.size()-1);
         return item;
     }
-    
+   
+    /**
+     * Execute print command
+     * <p>
+     * pop an item from the stack and print it to output
+     * @param terp
+     */
     private void print(pilly terp)
     {
         if (terp.stack.isEmpty()) System.out.println("Not enough items on stack");
@@ -24,12 +39,24 @@ public class function extends runnable
             System.out.println(pop(terp.stack));
         }
     }
-    
+   
+    /**
+     * Execute print stack command
+     * <p>
+     * print out the entire stack
+     * @param terp
+     */
     private void pstack(pilly terp)
     {
         System.out.println(terp.stack);
     }
-    
+   
+    /**
+     * Execute the add command
+     * <p>
+     * pop two items from the stack and push their sum onto the stack
+     * @param terp
+     */
     private void plus(pilly terp)
     {
         if (terp.stack.size() < 2) System.out.println("Not enough items on stack");
@@ -39,7 +66,13 @@ public class function extends runnable
             terp.stack.add(b+a);
         }
     }
-    
+   
+    /**
+     * Execute the subtract command
+     * <p>
+     * pop two items from the stack and push their difference onto the stack
+     * @param terp
+     */
     private void minus(pilly terp)
     {
         if (terp.stack.size() < 2) System.out.println("Not enough items on stack");
@@ -49,7 +82,13 @@ public class function extends runnable
             terp.stack.add(b-a);
         }
     }
-    
+   
+    /**
+     * Execute the multiply command
+     * <p>
+     * pop two items from the stack and push their product onto the stack
+     * @param terp
+     */
     private void times(pilly terp)
     {
         if (terp.stack.size() < 2) System.out.println("Not enough items on stack");
@@ -59,7 +98,13 @@ public class function extends runnable
             terp.stack.add(b*a);
         }
     }
-    
+   
+    /**
+     * Execute the divide command
+     * <p>
+     * pop two items from the stack and push their quotient onto the stack
+     * @param terp
+     */
     private void divide(pilly terp)
     {
         if (terp.stack.size() < 2) System.out.println("Not enough items on stack");
@@ -69,7 +114,13 @@ public class function extends runnable
             terp.stack.add(b/a);
         }
     }
-    
+   
+    /**
+     * Execute the square root command
+     * <p>
+     * pop one item from the stack and push its square root onto the stack
+     * @param terp
+     */
     private void sqrt(pilly terp)
     {
         if (terp.stack.size() < 1) System.out.println("Not enough items on stack");
@@ -78,7 +129,13 @@ public class function extends runnable
             terp.stack.add(Math.sqrt(a));
         }
     }
-    
+   
+    /**
+     * Execute the duplicate command
+     * <p>
+     * duplicate the top item on the stack
+     * @param terp
+     */
     private void dup(pilly terp)
     {
         if (terp.stack.size() < 1) System.out.println("Not enough items on stack");
@@ -88,15 +145,27 @@ public class function extends runnable
             terp.stack.add(a);
         }
     }
-    
+   
+    /**
+     * Execute the drop command
+     * <p>
+     * remove the top item from the stack
+     * @param terp
+     */
     private void drop(pilly terp)
     {
         if (terp.stack.size() < 1) System.out.println("Not enough items on stack");
         else {
-            Object a = pop(terp.stack);
+            pop(terp.stack);
         }
     }
-    
+   
+    /**
+     * Execute the swap command
+     * <p>
+     * swap the top two items on the stack
+     * @param terp
+     */
     private void swap(pilly terp)
     {
         if (terp.stack.size() < 2) System.out.println("Not enough items on stack");
@@ -107,7 +176,13 @@ public class function extends runnable
             terp.stack.add(b);
         }
     }
-    
+   
+    /**
+     * Execute the over command
+     * <p>
+     * duplicate the value of the second item on the stack onto the top
+     * @param terp
+     */
     private void over(pilly terp)
     {
         if (terp.stack.size() < 2) System.out.println("Not enough items on stack");
@@ -119,7 +194,13 @@ public class function extends runnable
             terp.stack.add(b);
         }
     }
-    
+
+    /**
+     * Execute the rot command
+     * <p>
+     * rotate the top three items on the stack (first->second, second->third, third->first)
+     * @param terp
+     */
     private void rot(pilly terp)
     {
         if (terp.stack.size() < 3) System.out.println("Not enough items on stack");
@@ -132,14 +213,25 @@ public class function extends runnable
             terp.stack.add(c);
         }
     }
-    
+   
+    /**
+     * Execute the make variable command
+     * <p>
+     * create a new variable named the next word in the line
+     */
     private void var(pilly terp)
     {
         String varName = terp.lexer.nextWord();
         if (varName == null) System.out.println("Unexpected end of input");
         terp.define(varName, new variable());
     }
-    
+   
+    /**
+     * Execute the store variable command
+     * <p>
+     * pop the top two items off the stack and store the value in the second in the variable named in the first
+     * @param terp
+     */
     private void store(pilly terp)
     {
         if (terp.stack.size() < 2) System.out.println("Not enough items on stack");
@@ -150,7 +242,13 @@ public class function extends runnable
             ref.value = newV;
         }
     }
-    
+   
+    /**
+     * Execute the fetch variable command
+     * <p>
+     * replace the variable at the top of the stack with its value
+     * @param terp
+     */
     private void fetch(pilly terp)
     {
         if (terp.stack.size() < 1) System.out.println("Not enough items on stack");
@@ -160,7 +258,13 @@ public class function extends runnable
             terp.stack.add(ref.value);
         }
     }
-    
+   
+    /**
+     * Execute the make constant command
+     * <p>
+     * pop the top value off the stack and define a constant named the next word in the line with that value
+     * @param terp
+     */
     public void constant(pilly terp)
     {
         if (terp.stack.size() < 1) System.out.println("Not enough items on stack");
@@ -175,37 +279,76 @@ public class function extends runnable
             }
         }
     }
-    
+   
+    /**
+     * Execute the escape string command with delimiter '\"'
+     * <p>
+     * push a string containing the characters upto the next occurence of '\"' to the stack
+     * @param terp
+     */
     public void quote(pilly terp)
     {
         terp.stack.add(terp.lexer.nextCharsUpTo('\"'));
     }
-    
+   
+    /**
+     * Execute the escape string command with delimeter "END"
+     * <p>
+     * push a string containing the characters upto the next occurence of "END" to the stack
+     * @param terp
+     */
     public void string(pilly terp)
     {
         terp.stack.add(terp.lexer.nextCharsUpTo("END"));
     }
-    
+   
+    /**
+     * Execute the comment command
+     * <p>
+     * ignore the remainder of the line
+     * @param terp
+     */
     public void commLine(pilly terp)
     {
         terp.lexer.nextCharsUpTo('\n');
     }
     
+    /**
+     * Execute the comment command with delimiter ")"
+     * <p>
+     * ignore the characters upto the next occurence of ')'
+     * @param terp 
+     */
     public void commParen(pilly terp)
     {
         terp.lexer.nextCharsUpTo(')');
     }
     
+    /**
+     * Execute the comment command with delimeter "*"+"/"
+     * <p>
+     * ignore the characters upto the next occurence of '*'+'/'
+     * @param terp
+     */
     public void commBlock(pilly terp)
     {
         terp.lexer.nextCharsUpTo("*/");
     }
-    
+
+    /**
+     * Execute the halt command
+     * <p>
+     * stop the execution loop
+     * @param terp
+     */ 
     private void halt(pilly terp)
     {
         terp.running = false;
     }
-    
+   
+    /**
+     * Execute the correct command based on the title of the function
+     */
     public void run(pilly terp)
     {
         switch(title)
@@ -277,10 +420,5 @@ public class function extends runnable
                 commParen(terp);
                 break;
         }
-    }
-    
-    public static void main(String[] args)
-    {
-        
     }
 }

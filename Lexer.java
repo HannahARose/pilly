@@ -1,8 +1,16 @@
+/**
+ * A class to break text input into meaningful pieces
+ */
 public class Lexer
 {
     public String text;
     int position;
     
+    /**
+     * Determines whether the given character is whitespace
+     * @param ch
+     * @return
+     */
     public static boolean isWhitespace(char ch)
     {
         return (ch==' ')||(ch=='\t')||(ch=='\r')||(ch=='\n');
@@ -12,12 +20,20 @@ public class Lexer
     {
     }
     
+    /**
+     * replaces the current text buffer with given text
+     * @param in
+     */
     public void setText(String in)
     {
         text = in;
         position = 0;
     }
     
+    /**
+     * returns the next word delimited by whitespace and updates the position
+     * @return
+     */
     public String nextWord()
     {
         if ( position >= text.length() ) return null;
@@ -38,6 +54,11 @@ public class Lexer
         return collector;
     }
     
+    /**
+     * returns the next characters upto and not including the given character and updates the position
+     * @param ch
+     * @return
+     */
     public String nextCharsUpTo(char ch)
     {
         if (position >= text.length()) return null;
@@ -53,7 +74,10 @@ public class Lexer
         position = newPos;
         return collector;
     }
-    
+ 
+    /**
+     * returns the next characters upto and not including the given string and updates the position
+     */
     public String nextCharsUpTo(String end)
     {
         if (position >= text.length()) return null;

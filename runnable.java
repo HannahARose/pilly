@@ -1,11 +1,7 @@
-public class runnable
+/**
+ * An interface to contain executables (constants, functions, variables)
+ */
+public interface runnable
 {
-    public runnable()
-    {
-        
-    }
-    public void run(pilly terp)
-    {
-        
-    }
+    public void run(pilly terp);
 }
