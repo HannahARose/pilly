@@ -4,4 +4,5 @@
 public interface runnable
 {
     public void run(pilly terp);
+    public boolean isImmediate();
 }

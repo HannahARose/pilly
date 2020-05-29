@@ -12,6 +12,14 @@ public class constant implements runnable
     {
         value = val;
     }
+   
+    /**
+     * always returns false (constants are never immediate)
+     */
+    public boolean isImmediate() {
+        return false;
+    }
+
     /**
      * On execute, append value to the interpreter's stack
      */

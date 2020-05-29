@@ -3,8 +3,8 @@
  */
 public class Lexer
 {
-    public String text;
-    int position;
+    public String text; // the current text buffer
+    int position; // the current position in the text buffer
     
     /**
      * Determines whether the given character is whitespace
@@ -31,6 +31,24 @@ public class Lexer
     }
     
     /**
+     * add the given text to the text buffer
+     * @param in
+     */
+    public void addText(String in)
+    {
+        text = text + " " + in;
+    }
+    
+    /**
+     * return the remaining text in the buffer after the current position
+     * @return
+     */
+    public String textRemaining()
+    {
+        return text.substring(position);
+    }
+    
+    /**
      * returns the next word delimited by whitespace and updates the position
      * @return
      */
@@ -52,6 +70,22 @@ public class Lexer
         newPos ++;
         position = newPos;
         return collector;
+    }
+    
+    /**
+     * returns whether the buffer has another word 
+     * @return
+     */
+    public boolean hasNextWord()
+    {
+        if ( position >= text.length() ) return false;
+        int newPos = position;
+        while (isWhitespace(text.charAt(newPos)))
+        {
+            newPos ++;
+            if (newPos >= text.length()) return false;
+        }
+        return true;
     }
     
     /**
